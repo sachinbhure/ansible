@@ -7,12 +7,12 @@
         update_homebrew: yes
 
     - name: Update brew formulas
-      command: brew update
+      command: /opt/homebrew/bin/brew update
       register: brew_update_output
 
     - name: Upgrade all Homebrew packages
-      command: brew upgrade
+      command: /opt/homebrew/bin/brew upgrade
       register: brew_upgrade_output
 
     - name: Cleanup old versions of packages
-      command: brew cleanup
+      command: /opt/homebrew/bin/brew cleanup
