@@ -1,5 +1,5 @@
 - name: macOS Patch Management with Homebrew
-  hosts: macos_targets
+  hosts: Target_Machines
   become: false  # usually unnecessary on macOS for Homebrew tasks
   tasks:
     - name: Ensure Homebrew is installed
