@@ -1,18 +1,23 @@
-- name: macOS Patch Management with Homebrew
+- name: Ubuntu Patch Management with APT
   hosts: all
-  become: false  # usually unnecessary on macOS for Homebrew tasks
+  become: yes  # needed to run apt as root
   tasks:
-    - name: Ensure Homebrew is installed
-      homebrew:
-        update_homebrew: yes
+    - name: Update APT package index
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600  # skip update if last was <1h ago
 
-    - name: Update brew formulas
-      command: /opt/homebrew/bin/brew update
-      register: brew_update_output
+    - name: Upgrade all installed packages
+      apt:
+        upgrade: dist
+        autoremove: yes
+        autoclean: yes
 
-    - name: Upgrade all Homebrew packages
-      command: /opt/homebrew/bin/brew upgrade
-      register: brew_upgrade_output
-
-    - name: Cleanup old versions of packages
-      command: /opt/homebrew/bin/brew cleanup
+    - name: Reboot if kernel was updated
+      reboot:
+        msg: "Reboot initiated by Ansible after patching."
+        connect_timeout: 5
+        reboot_timeout: 600
+        pre_reboot_delay: 0
+        post_reboot_delay: 30
+        test_command: whoami
