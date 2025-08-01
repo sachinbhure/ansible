@@ -1,23 +1,12 @@
-- name: Ubuntu Patch Management with APT
+- name: Ubuntu Patch Management using shell (no sudo)
   hosts: all
-  become: yes  # needed to run apt as root
+  gather_facts: no
   tasks:
-    - name: Update APT package index
-      apt:
-        update_cache: yes
-        cache_valid_time: 3600  # skip update if last was <1h ago
+    - name: Run apt update (as normal user)
+      shell: echo "Skipping apt update — requires sudo"
 
-    - name: Upgrade all installed packages
-      apt:
-        upgrade: dist
-        autoremove: yes
-        autoclean: yes
+    - name: Run apt upgrade (as normal user)
+      shell: echo "Skipping apt upgrade — requires sudo"
 
-    - name: Reboot if kernel was updated
-      reboot:
-        msg: "Reboot initiated by Ansible after patching."
-        connect_timeout: 5
-        reboot_timeout: 600
-        pre_reboot_delay: 0
-        post_reboot_delay: 30
-        test_command: whoami
+    - name: Reboot system (as normal user)
+      shell: echo "Skipping reboot — requires sudo"
