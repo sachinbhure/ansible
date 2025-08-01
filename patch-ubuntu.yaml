@@ -1,6 +1,6 @@
 - name: Ubuntu Patch Management with APT
   hosts: all
-  become: yes  # needed to run apt as root
+  become: false  # needed to run apt as root
   tasks:
     - name: Update APT package index
       apt:
