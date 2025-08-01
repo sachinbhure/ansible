@@ -1,7 +1,5 @@
 - name: Ubuntu Patch Management with APT
   hosts: all
-  become: yes  # needed to run apt as root
-  become_method: sudo
   tasks:
     - name: Update APT package index
       apt:
